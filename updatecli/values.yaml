@@ -1,16 +1,9 @@
-# Valores comunes para todos los pipelines de Updatecli
+# updatecli/values.yaml
 github:
-  user: "Updatecli Bot"
-  email: "updatecli-bot@miempresa.com"
-  owner: "roxsross"  
-  repository: "mi-gitops-repo" 
-  username: "updatecli-bot"  
-  branch: "master"  
-  token: "GITHUB_TOKEN"  
-
-# Valores específicos para la empresa
-company:
-  name: "295devops"
-  team: "Platform Engineering"
-  slack:
-    channel: "#infra-updates"
+  user: "Roxs Ross"  # Tu nombre para los commits
+  email: "tu-email@ejemplo.com"  # Tu email público de GitHub
+  owner: "roxsross" 
+  repository: "roxs-updatecli-actions" 
+  username: "roxsross"  # Tu nombre de usuario para autenticación
+  branch: "master"  # Rama principal de tu repositorio
+  token: "GITHUB_TOKEN"  # Variable de entorno proporcionada por GitHub Actions

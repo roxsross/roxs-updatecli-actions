@@ -1,0 +1,30 @@
+controller:
+  image:
+    repository: registry.k8s.io/ingress-nginx/controller
+    tag: v1.8.1
+    pullPolicy: IfNotPresent
+  
+  config:
+    use-forwarded-headers: "true"
+    proxy-buffer-size: "16k"
+    ssl-protocols: "TLSv1.2 TLSv1.3"
+    
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
+      
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80

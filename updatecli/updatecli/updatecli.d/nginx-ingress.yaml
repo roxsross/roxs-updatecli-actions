@@ -1,0 +1,95 @@
+---
+name: Actualizar NGINX Ingress Controller
+
+pipelineid: "nginx-ingress"
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  chartLatestRelease:
+    name: "Última versión del chart de NGINX Ingress Controller"
+    kind: helmchart
+    spec:
+      url: https://kubernetes.github.io/ingress-nginx
+      name: ingress-nginx
+
+  ingressControllerImage:
+    name: "Última versión de la imagen de NGINX Ingress Controller"
+    kind: dockerimage
+    spec:
+      image: "registry.k8s.io/ingress-nginx/controller"
+      tagfilter: "^v[0-9]+\\.[0-9]+\\.[0-9]+$"  # Solo versiones semánticas estables
+
+conditions:
+  chartVersionChanged:
+    name: Verificar si la versión del chart ha cambiado
+    kind: file
+    disablesourceinput: true
+    spec:
+      file: applications/ingress-nginx/deploy.sh
+      matchpattern: 'CHART_VERSION={{ source "chartLatestRelease" }}'
+    sourceid: chartLatestRelease
+
+targets:
+  chartVersion:
+    name: Actualizar versión del chart de NGINX Ingress a {{ source "chartLatestRelease" }}
+    kind: file
+    spec:
+      file: applications/ingress-nginx/deploy.sh
+      matchpattern: "CHART_VERSION=.*"
+      replacepattern: 'CHART_VERSION={{ source "chartLatestRelease" }}'
+    scmid: default
+    sourceid: chartLatestRelease
+    condition: chartVersionChanged
+  
+  controllerImageTag:
+    name: Actualizar tag de imagen en values.yaml
+    kind: yaml
+    spec:
+      file: applications/ingress-nginx/values.yaml
+      key: $.controller.image.tag
+      value: '{{ source "ingressControllerImage" }}'
+    scmid: default
+    sourceid: ingressControllerImage
+
+actions:
+  createPullRequest:
+    kind: github/pullrequest
+    scmid: default
+    title: "[Actualización] NGINX Ingress Controller a la versión {{ source 'chartLatestRelease' }}"
+    spec:
+      automerge: false
+      mergemethod: squash
+      labels:
+        - dependencies
+        - networking
+      draft: false
+      description: |
+        ## 🔄 Actualización automática de NGINX Ingress Controller
+        
+        Esta PR actualiza la versión del chart de NGINX Ingress Controller a `{{ source "chartLatestRelease" }}`.
+        
+        También actualiza la imagen del controlador a la versión `{{ source "ingressControllerImage" }}`.
+        
+        ### 📝 Cambios notables
+        
+        Para ver los cambios incluidos en esta versión, consulta:
+        - [Changelog del chart](https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx)
+        - [Release notes del controlador](https://github.com/kubernetes/ingress-nginx/releases)
+        
+        ### ✅ Verificación
+        
+        - [ ] Revisar los cambios y el changelog
+        - [ ] Comprobar que la configuración personalizada sigue siendo compatible
+        - [ ] Verificar que las anotaciones de Ingress siguen funcionando correctamente
+        - [ ] Desplegar en entorno de pruebas antes de producción
