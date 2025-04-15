@@ -11,7 +11,7 @@ scms:
       email: "{{ .github.email }}"
       owner: "{{ .github.owner }}"
       repository: "{{ .github.repository }}"
-      token: "{{ requiredEnv \"GITHUBTOKEN\" }}"
+      token: "{{ requiredEnv \"GITHUB_TOKEN\" }}"
       username: "{{ .github.username }}"
       branch: "{{ .github.branch }}"
 
