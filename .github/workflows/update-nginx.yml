@@ -1,4 +1,4 @@
-name: Actualización de NGINX Ingress Controller
+name: updatecli
 
 on:
   # Ejecución programada: todos los lunes a las 07:00 UTC
