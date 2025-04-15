@@ -37,7 +37,7 @@ actions:
   createPR:
     kind: github/pullrequest
     scmid: default
-    title: "Actualizar NGINX Ingress a versión {{ source \"chartVersion\" }}"
+    title: 'Actualizar NGINX Ingress a versión {{ source "chartVersion" }}'
     spec:
       labels:
         - dependencies
