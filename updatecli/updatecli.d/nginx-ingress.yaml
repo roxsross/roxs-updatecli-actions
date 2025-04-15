@@ -58,7 +58,8 @@ targets:
     spec:
       file: applications/ingress-nginx/values.yaml
       key: $.controller.image.tag
-      value: '{{ source "ingressControllerImage" }}'
+      value: "{{ source \"ingressControllerImage\" }}"
+      # Cambiado de: value: '{{ source "ingressControllerImage" }}'
     scmid: default
     sourceid: ingressControllerImage
 
