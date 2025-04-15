@@ -22,3 +22,5 @@ jobs:
       - name: Ejecutar Updatecli con Docker
         run: |
           docker run -v $(pwd):/workspace -w /workspace --user root -e GITHUB_TOKEN=${{ secrets.GITHUBTOKEN }} updatecli/updatecli:latest apply --config updatecli/updatecli.d/simplest.yaml --values updatecli/values.yaml
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUBTOKEN }}"
