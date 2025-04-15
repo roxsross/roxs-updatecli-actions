@@ -1,0 +1,44 @@
+---
+name: Actualizar Chart de NGINX Ingress
+
+pipelineid: nginx-chart
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  chartVersion:
+    name: Última versión del chart
+    kind: helmchart
+    spec:
+      url: https://kubernetes.github.io/ingress-nginx
+      name: ingress-nginx
+
+targets:
+  updateChartVersion:
+    name: Actualizar versión del chart
+    kind: file
+    sourceid: chartVersion
+    scmid: default
+    spec:
+      file: applications/ingress-nginx/deploy.sh
+      matchpattern: "CHART_VERSION=.*"
+      replacepattern: "CHART_VERSION={{ source \"chartVersion\" }}"
+
+actions:
+  pullRequest:
+    kind: github/pullrequest
+    scmid: default
+    title: "Actualizar Chart de NGINX Ingress"
+    spec:
+      labels:
+        - dependencies

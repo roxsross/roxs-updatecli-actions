@@ -32,6 +32,7 @@ jobs:
 
       - name: Ejecutar Updatecli
         run: |
-          updatecli apply --config updatecli/updatecli.d/nginx-ingress.yaml --values updatecli/values.yaml
+          updatecli apply --config updatecli/updatecli.d/nginx-chart.yaml --values updatecli/values.yaml
+          updatecli apply --config updatecli/updatecli.d/nginx-image.yaml --values updatecli/values.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}

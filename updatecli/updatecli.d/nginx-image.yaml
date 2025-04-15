@@ -1,0 +1,44 @@
+---
+name: Actualizar Imagen de NGINX Ingress
+
+pipelineid: nginx-image
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  imageTag:
+    name: Última versión de la imagen
+    kind: dockerimage
+    spec:
+      image: registry.k8s.io/ingress-nginx/controller
+      tagfilter: "^v[0-9]+\\.[0-9]+\\.[0-9]+$"
+
+targets:
+  updateImageTag:
+    name: Actualizar tag de imagen
+    kind: yaml
+    sourceid: imageTag
+    scmid: default
+    spec:
+      file: applications/ingress-nginx/values.yaml
+      key: "controller.image.tag"
+      value: "{{ source \"imageTag\" }}"
+
+actions:
+  pullRequest:
+    kind: github/pullrequest
+    scmid: default
+    title: "Actualizar Imagen de NGINX Ingress"
+    spec:
+      labels:
+        - dependencies
