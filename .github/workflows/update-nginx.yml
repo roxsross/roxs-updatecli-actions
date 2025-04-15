@@ -32,4 +32,5 @@ jobs:
 
       - name: Ejecutar Updatecli con Docker
         run: |
+          chmod 644 applications/ingress-nginx/deploy.sh
           docker run -v $(pwd):/workspace -w /workspace -e GITHUB_TOKEN=${{ secrets.GITHUBTOKEN }} updatecli/updatecli:latest apply --config updatecli/updatecli.d/simplest.yaml
