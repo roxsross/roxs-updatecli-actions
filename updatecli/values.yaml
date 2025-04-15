@@ -5,4 +5,4 @@ github:
   repository: "roxs-updatecli-actions" 
   username: "roxsross"  
   branch: "master"  
-  token: "GITHUBTOKEN"  
+  token: "GITHUB_TOKEN"  
