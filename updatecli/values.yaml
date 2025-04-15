@@ -6,4 +6,4 @@ github:
   repository: "roxs-updatecli-actions" 
   username: "roxsross"  # Tu nombre de usuario para autenticación
   branch: "master"  # Rama principal de tu repositorio
-  token: "GITHUB_TOKEN"  # Variable de entorno proporcionada por GitHub Actions
+  token: "GITHUBTOKEN"  # Variable de entorno proporcionada por GitHub Actions
