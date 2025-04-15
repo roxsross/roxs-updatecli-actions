@@ -1,9 +1,8 @@
-# updatecli/values.yaml
 github:
-  user: "Roxs Ross"  # Tu nombre para los commits
-  email: "tu-email@ejemplo.com"  # Tu email público de GitHub
+  user: "Roxs Ross"  
+  email: "tu-email@ejemplo.com"  
   owner: "roxsross" 
   repository: "roxs-updatecli-actions" 
-  username: "roxsross"  # Tu nombre de usuario para autenticación
-  branch: "master"  # Rama principal de tu repositorio
-  token: "GITHUBTOKEN"  # Variable de entorno proporcionada por GitHub Actions
+  username: "roxsross"  
+  branch: "master"  
+  token: "GITHUBTOKEN"  

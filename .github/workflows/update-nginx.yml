@@ -1,11 +1,8 @@
 name: updatecli
 
 on:
-  # Ejecución programada: todos los lunes a las 07:00 UTC
   schedule:
     - cron: '0 7 * * 1'
-  
-  # Permitir ejecución manual desde la interfaz de GitHub
   workflow_dispatch:
 
 permissions:
@@ -24,4 +21,4 @@ jobs:
 
       - name: Ejecutar Updatecli con Docker
         run: |
-          docker run -v $(pwd):/workspace -w /workspace --user root -e GITHUB_TOKEN=${{ secrets.GITHUBTOKEN }} updatecli/updatecli:latest apply --config updatecli/updatecli.d/simplest.yaml
+          docker run -v $(pwd):/workspace -w /workspace --user root -e GITHUB_TOKEN=${{ secrets.GITHUBTOKEN }} updatecli/updatecli:latest apply --config updatecli/updatecli.d/simplest.yaml --values updatecli/values.yaml
