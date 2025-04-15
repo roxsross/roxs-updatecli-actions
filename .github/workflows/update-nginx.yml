@@ -14,23 +14,15 @@ permissions:
 
 jobs:
   update-nginx:
-    name: Actualizar NGINX Ingress Controller
+    name: validation-updatecli
     runs-on: ubuntu-latest
     steps:
       - name: Checkout del código
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      
-      - name: Configurar git
-        run: |
-          git config --global user.name "Roxs Ross"
-          git config --global user.email "tu-email@ejemplo.com"
-      
-      - name: Instalar Updatecli
-        uses: updatecli/updatecli-action@v2
 
       - name: Ejecutar Updatecli con Docker
         run: |
-          chmod 644 applications/ingress-nginx/deploy.sh
+          chmod +x applications/ingress-nginx/deploy.sh
           docker run -v $(pwd):/workspace -w /workspace -e GITHUB_TOKEN=${{ secrets.GITHUBTOKEN }} updatecli/updatecli:latest apply --config updatecli/updatecli.d/simplest.yaml
