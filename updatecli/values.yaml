@@ -1,0 +1,16 @@
+# Valores comunes para todos los pipelines de Updatecli
+github:
+  user: "Updatecli Bot"
+  email: "updatecli-bot@miempresa.com"
+  owner: "roxsross"  
+  repository: "mi-gitops-repo" 
+  username: "updatecli-bot"  
+  branch: "master"  
+  token: "GITHUB_TOKEN"  
+
+# Valores específicos para la empresa
+company:
+  name: "295devops"
+  team: "Platform Engineering"
+  slack:
+    channel: "#infra-updates"
